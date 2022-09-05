@@ -13,6 +13,7 @@ let config={
     }
 };
 let game= new Phaser.Game(config);
+// now we will create functions
 function preload() {
 
 }
