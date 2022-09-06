@@ -6,6 +6,14 @@ let config={
         height : 600    ,
     },
     backgroundColor :"#049cd8",
+    physics:{
+      default:'arcade',
+      arcade :{
+        gravity :{
+            y:1000,
+        }
+      },
+    },
     scene: {
         preload : preload,
         create : create,
@@ -13,10 +21,12 @@ let config={
     }
 };
 let game= new Phaser.Game(config);
+
 // now we will create functions
 // preload is used for image and animation loading
 function preload() {
     this.load.image("ground","Assets/topground.png");
+    this.load.spritesheet("hero","Assets/hero.png",{frameWidth:58,frameHeight:76});
 }
 // create is called once preload has completed, this includes the loading of any assets from the Loader.
 //If you don't have a preload method then create is the first method called in your State.
@@ -26,8 +36,10 @@ function create() {
     // A Sprite Game Object is used for the display of both static and animated images in your game. Sprites can have input events and physics bodies. They can also be tweened, tinted, scrolled and animated.
     //  The main difference between a Sprite and an Image Game Object is that you cannot animate Images.
     // adding tilesSprites
-    let ground=this.add.tileSprite(0,H-280,W,280,"ground");
+    let ground=this.add.tileSprite(0,H-380,W,380,"ground");
     ground.setOrigin(0,0);
+    // loading player
+    let player= this.add.sprite(100,100,"hero",8);
 
 }
 // The update method is left empty for your own use. It is called during the core game loop AFTER debug, physics, plugins and the Stage have had their preUpdate methods called.
