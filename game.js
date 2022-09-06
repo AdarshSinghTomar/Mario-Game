@@ -2,8 +2,8 @@ let config={
     type: Phaser.AUTO,
     scale : {
         mode: Phaser.Scale.FIT,
-        width : 800,
-        height : 600,
+        width : 1370,
+        height : innerHeight    ,
     },
     backgroundColor :"#049cd8",
     scene: {
