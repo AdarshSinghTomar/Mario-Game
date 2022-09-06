@@ -52,9 +52,11 @@ function create() {
     let player= this.physics.add.sprite(100,100,"hero",8);
     // now making player to collide in ground
     // first making ground to allow under physics
-    this.physics.add.existing(ground);
+     // adding physics to the ground also making ground static
+    this.physics.add.existing(ground,true);
     ground.body.allowGravity=false;
-    ground.body.immovable=true;
+    // // making ground static
+    // ground.body.immovable=true;
 
     // now adding collision detection which is inbuilt in this framework
     this.physics.add.collider(ground,player);
