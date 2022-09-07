@@ -51,26 +51,43 @@ function create() {
       background.depth =-1;
 
     // loading player and it will also falling
-    let player= this.physics.add.sprite(100,100,"hero",8);
+      this.player= this.physics.add.sprite(100,100,"hero",8);
+       // setting the bounce to the player
+       // here .3 means there will be a loss of energy if i put it 1 it will remain bounce till iternity
+        this.player.setBounce(0.3);
 
     // now making player to collide in ground
-    // first making ground to allow under physics
-     // adding physics to the ground also making ground static
-    this.physics.add.existing(ground,true);
-    ground.body.allowGravity=false;
-    // // making ground static
-    // ground.body.immovable=true;
-
-    // now adding collision detection which is inbuilt in this framework
-    this.physics.add.collider(ground,player);
+       // first making ground to allow under physics
+        // adding physics to the ground also making ground static
+       this.physics.add.existing(ground,true);
+       ground.body.allowGravity=false;
+       // // making ground static
+        // ground.body.immovable=true;
 
     // now adding group of apples which will fall to the ground
-      let fruits = this.physics.add.group({
-        key : "apple",
-        repeat : 8,
-        setScale : {x:0.05,y:0.05},
-        setXY : {x :10 , y:0, stepX: 100},
+        // now we need group of fruites to fall from the sky so we can add group
+         let fruits = this.physics.add.group({
+        // add image id
+           key : "apple",
+        // how many repetitions i want
+           repeat : 8,
+        // reduce the size of image i have reduced it to 0.05 percent
+           setScale : {x:0.05,y:0.05},
+        // setting the intial position of first apple and distance between apples
+           setXY : {x :10 , y:0, stepX: 100},
       })
+        // setting bouncing effect to the apples
+           // we will have different bounce for every apples
+           // so we have to iterate over the apples
+              fruits.children.iterate((f)=>{
+                 // here we have used phaser inbuilt method to set randome value under a range
+                f.setBounce(Phaser.Math.FloatBetween(0.4,0.7));
+               })
+
+    // now adding collision detection which is inbuilt in this framework
+       this.physics.add.collider(ground,this.player);
+       this.physics.add.collider(ground,fruits);
+
 
 }
 // The update method is left empty for your own use. It is called during the core game loop AFTER debug, physics, plugins and the Stage have had their preUpdate methods called.
