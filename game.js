@@ -29,6 +29,7 @@ let game= new Phaser.Game(config);
 function preload() {
     this.load.image("ground","Assets/topground.png");
     this.load.image("sky","Assets/background.png");
+    this.load.image("apple","Assets/apple.png");
     this.load.spritesheet("hero","Assets/hero.png",{frameWidth:58,frameHeight:56});
 }
 // create is called once preload has completed, this includes the loading of any assets from the Loader.
@@ -48,8 +49,10 @@ function create() {
       background.displayWidth =W;
       background.displayHeight=H;
       background.depth =-1;
+
     // loading player and it will also falling
     let player= this.physics.add.sprite(100,100,"hero",8);
+
     // now making player to collide in ground
     // first making ground to allow under physics
      // adding physics to the ground also making ground static
@@ -61,6 +64,13 @@ function create() {
     // now adding collision detection which is inbuilt in this framework
     this.physics.add.collider(ground,player);
 
+    // now adding group of apples which will fall to the ground
+      let fruits = this.physics.add.group({
+        key : "apple",
+        repeat : 8,
+        setScale : {x:0.05,y:0.05},
+        setXY : {x :10 , y:0, stepX: 100},
+      })
 
 }
 // The update method is left empty for your own use. It is called during the core game loop AFTER debug, physics, plugins and the Stage have had their preUpdate methods called.
