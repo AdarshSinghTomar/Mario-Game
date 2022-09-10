@@ -24,6 +24,10 @@ let config={
 };
 let game= new Phaser.Game(config);
 
+let game_config ={
+  player_speed :150,
+  player_jumpspeed : -700,
+}
 // now we will create functions
 // preload is used for image and animation loading
 function preload() {
@@ -55,6 +59,12 @@ function create() {
        // setting the bounce to the player
        // here .3 means there will be a loss of energy if i put it 1 it will remain bounce till iternity
         this.player.setBounce(0.3);
+         // player animation
+
+
+        // keyboard
+        // this is standard function for creating event listener for keyboard
+        this.cursors=this.input.keyboard.createCursorKeys();
 
     // now making player to collide in ground
        // first making ground to allow under physics
@@ -92,23 +102,47 @@ function create() {
         // physical object means if apple will drop it will drop only on original
         // body so we have to use another function name refreshBody it will change the
         // physical body
-        platforms.create(600,400,'ground').setScale(1,0.5).refreshBody();
-        platforms.create(400,300,'ground').setScale(1,0.5).refreshBody();
+        platforms.create(500,350,'ground').setScale(1,0.5).refreshBody();
+        platforms.create(700,200,'ground').setScale(1,0.5).refreshBody();
         platforms.create(100,200,'ground').setScale(1,0.5).refreshBody();
-
+         // now we don't need ground to be different entity we can add ground
+         // to the platforms
+         platforms.add(ground);
 
 
 
     // now adding collision detection which is inbuilt in this framework
-       this.physics.add.collider(ground,this.player);
-       this.physics.add.collider(ground,fruits);
+       this.physics.add.collider(platforms,this.player);
+      //  this.physics.add.collider(ground,fruits);
+       this.physics.add.collider(platforms,fruits);
+
 
 
 }
 
 // The update method is left empty for your own use. It is called during the core game loop AFTER debug, physics, plugins and the Stage have had their preUpdate methods called.
 //If is called BEFORE Stage, Tweens, Sounds, Input, Physics, Particles and Plugins have had their postUpdate methods called.
+// This will also tell about event listeners
 function update()
-{
+{     // when some one has preseed the left button
+     if(this.cursors.left.isDown)
+     { // this.setVelocity will have velocity in both axis
+        // but we want only x axis so
+      this.player.setVelocityX(-game_config.player_speed);
+     }
+     else if (this.cursors.right.isDown)
+     {
+      this.player.setVelocityX(game_config.player_speed);
+     }
+     // now making jumping when up key is pressed and player is touching the ground
+     else if (this.cursors.up.isDown && this.player.body.touching.down)
+     {
+      this.player.body.velocity.y = game_config.player_jumpspeed;
 
+     }
+     else {
+      // this will make sure when user stop pressing key then player
+      // should stop
+        this.player.setVelocityX(0);
+     }
 }
