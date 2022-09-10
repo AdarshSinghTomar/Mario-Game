@@ -83,6 +83,21 @@ function create() {
                  // here we have used phaser inbuilt method to set randome value under a range
                 f.setBounce(Phaser.Math.FloatBetween(0.4,0.7));
                })
+        // now creating more platform objects
+        // this will create static group
+        platforms =this.physics.add.staticGroup();
+        // this will create a static platform with  factor by which
+        // u wnat to change the width and height
+        // but it will only scale the image not change the
+        // physical object means if apple will drop it will drop only on original
+        // body so we have to use another function name refreshBody it will change the
+        // physical body
+        platforms.create(600,400,'ground').setScale(1,0.5).refreshBody();
+        platforms.create(400,300,'ground').setScale(1,0.5).refreshBody();
+        platforms.create(100,200,'ground').setScale(1,0.5).refreshBody();
+
+
+
 
     // now adding collision detection which is inbuilt in this framework
        this.physics.add.collider(ground,this.player);
@@ -90,6 +105,7 @@ function create() {
 
 
 }
+
 // The update method is left empty for your own use. It is called during the core game loop AFTER debug, physics, plugins and the Stage have had their preUpdate methods called.
 //If is called BEFORE Stage, Tweens, Sounds, Input, Physics, Particles and Plugins have had their postUpdate methods called.
 function update()
